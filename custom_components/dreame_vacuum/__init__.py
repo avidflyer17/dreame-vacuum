@@ -2,12 +2,21 @@
 
 from __future__ import annotations
 import traceback
+import warnings
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.components.frontend import DATA_EXTRA_MODULE_URL
 from pathlib import Path
 from .const import DOMAIN
+
+# Suppress python-miio FutureWarning on Python 3.13
+warnings.filterwarnings(
+    "ignore",
+    category=FutureWarning,
+    module="miio.miot_device",
+)
+
 from .coordinator import DreameVacuumDataUpdateCoordinator
 
 PLATFORMS = (
