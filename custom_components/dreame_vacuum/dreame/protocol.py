@@ -1595,7 +1595,7 @@ class DreameVacuumProtocol:
     def set_properties(self, parameters: Any = None, retry_count: int = 2) -> Any:
         return self.send("set_properties", parameters=parameters, retry_count=retry_count)
 
-    def action_async(self, callback, siid: int, aiid: int, parameters=[], retry_count: int = 2):
+    def action_async(self, callback, siid: int, aiid: int, parameters=None, retry_count: int = 2):
         if parameters is None:
             parameters = []
 
@@ -1612,7 +1612,7 @@ class DreameVacuumProtocol:
             retry_count=retry_count,
         )
 
-    def action(self, siid: int, aiid: int, parameters=[], retry_count: int = 2) -> Any:
+    def action(self, siid: int, aiid: int, parameters=None, retry_count: int = 2) -> Any:
         if parameters is None:
             parameters = []
 
