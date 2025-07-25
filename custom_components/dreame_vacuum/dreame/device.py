@@ -3238,7 +3238,9 @@ class DreameVacuumDevice:
             ],
         )
 
-    def call_shortcut_action(self, command: str, parameters={}):
+    def call_shortcut_action(self, command: str, parameters=None):
+        if parameters is None:
+            parameters = {}
         return self.call_action(
             DreameVacuumAction.SHORTCUTS,
             [
@@ -3254,7 +3256,9 @@ class DreameVacuumDevice:
             ],
         )
 
-    def call_shortcut_action_async(self, callback, command: str, parameters={}):
+    def call_shortcut_action_async(self, callback, command: str, parameters=None):
+        if parameters is None:
+            parameters = {}
         mapping = self.action_mapping[DreameVacuumAction.SHORTCUTS]
         return self._protocol.action_async(
             callback,
@@ -5208,13 +5212,13 @@ class DreameVacuumDevice:
             if map_id is not None:
                 return self.update_map_data_async({"smra": {map_id: {"ra": rotation}}})
 
-    def set_restricted_zone(self, walls=[], zones=[], no_mops=[]) -> dict[str, Any] | None:
+    def set_restricted_zone(self, walls=None, zones=None, no_mops=None) -> dict[str, Any] | None:
         """Set restricted zones on current saved map."""
-        if walls == "":
+        if walls is None or walls == "":
             walls = []
-        if zones == "":
+        if zones is None or zones == "":
             zones = []
-        if no_mops == "":
+        if no_mops is None or no_mops == "":
             no_mops = []
 
         if self._map_manager:
@@ -5227,11 +5231,11 @@ class DreameVacuumDevice:
 
         return self.update_map_data_async({"vw": payload})
 
-    def set_carpet_area(self, carpets=[], ignored_carpets=[]) -> dict[str, Any] | None:
+    def set_carpet_area(self, carpets=None, ignored_carpets=None) -> dict[str, Any] | None:
         """Set carpet areas on current saved map."""
-        if carpets == "":
+        if carpets is None or carpets == "":
             carpets = []
-        if ignored_carpets == "":
+        if ignored_carpets is None or ignored_carpets == "":
             ignored_carpets = []
 
         for index in range(len(carpets)):
@@ -5253,9 +5257,9 @@ class DreameVacuumDevice:
                 raise InvalidActionException("Carpets are not supported on this device")
         return self.update_map_data_async({"cpt": {"addcpt": carpets, "nocpt": ignored_carpets}})
 
-    def set_virtual_threshold(self, virtual_thresholds=[]) -> dict[str, Any] | None:
+    def set_virtual_threshold(self, virtual_thresholds=None) -> dict[str, Any] | None:
         """Set virtual thresholds on current saved map."""
-        if virtual_thresholds == "":
+        if virtual_thresholds is None or virtual_thresholds == "":
             virtual_thresholds = []
 
         if self._map_manager:
@@ -5275,9 +5279,9 @@ class DreameVacuumDevice:
                 raise InvalidActionException("Virtual thresholds are not supported on this device")
         return self.update_map_data_async({"vws": {"vwsl": virtual_thresholds}})
 
-    def set_predefined_points(self, points=[]) -> dict[str, Any] | None:
+    def set_predefined_points(self, points=None) -> dict[str, Any] | None:
         """Set predefined points on current saved map."""
-        if points == "":
+        if points is None or points == "":
             points = []
 
         if not self.capability.cruising:
